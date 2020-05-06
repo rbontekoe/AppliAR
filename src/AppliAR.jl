@@ -10,7 +10,7 @@ using Dates
 include("./infrastructure/infrastructure.jl")
 
 # next, submodule Reporting
-include("Reporting.jl")
+#include("Reporting.jl")
 
 export create, process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements, report
 
