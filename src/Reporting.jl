@@ -9,9 +9,9 @@ using Dates
 
 export aging
 
-import ..AppliInvoicing: retrieve_unpaid_invoices, retrieve_paid_invoices
+import ..AppliAR: retrieve_unpaid_invoices, retrieve_paid_invoices
 
-import ..AppliInvoicing: id, name, date, meta, header, body, students, price_per_student, vat_perc
+import ..AppliAR: id, name, date, meta, header, body, students, price_per_student, vat_perc
 
 struct Aging
     id_inv::String
