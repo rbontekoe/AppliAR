@@ -9,9 +9,12 @@ using Dates
 # first, link to the model
 include("./infrastructure/infrastructure.jl")
 
+# next, submodule Reporting
+include("Reporting.jl")
+
 export create, process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements, report
 
-# fields order
+# fields Order
 export id, meta, header, body, stm
 
 # fields Meta
