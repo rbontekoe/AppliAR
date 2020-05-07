@@ -7,3 +7,5 @@
 [![Coveralls](https://coveralls.io/repos/github/rbontekoe/AppliAR.jl/badge.svg?branch=master)](https://coveralls.io/github/rbontekoe/AppliAR.jl?branch=master)
 
 AppliAR is a package we discuss in the course [BAWJ](https://www.appligate.nl/BAWJ/) (Building Business Applications with Julia).
+
+The package uses the support packages AplliSales and AppliGeneralLedger.
