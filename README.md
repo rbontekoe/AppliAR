@@ -8,4 +8,4 @@
 
 AppliAR is a package we discuss in the course [BAWJ](https://www.appligate.nl/BAWJ/) (Building Business Applications with Julia).
 
-The package uses the support packages AplliSales and AppliGeneralLedger.
+The package uses the support packages AppliSales and AppliGeneralLedger.
