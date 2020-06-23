@@ -12,8 +12,8 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 SQLite = "0aa819cd-b072-5ff4-a722-6bc24af294d9"
 
 [compat]
-AppliSales = "0.1.2"
 AppliGeneralLedger = "0.1.0"
+AppliSales = "0.1.2"
 CSV = "0.6"
 DataFrames = "0.20"
 SQLite = "1.0"
