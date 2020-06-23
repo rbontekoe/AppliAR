@@ -1,11 +1,21 @@
 # infrastructure.jl
 
-using CSV
-#using DataFrames
+module Infrastructure
 
-include("../api/api.jl")
 include("./db.jl")
 include("./doc.jl") # database functions
+
+import ..AppliAR: API, Domain
+using .API
+using .Domain
+
+import AppliSales: Order
+import AppliGeneralLedger: Entry
+
+using CSV
+
+export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices, connect, disconnect
+
 
 @enum TableName begin
     UNPAID
@@ -109,3 +119,5 @@ retrieve_paid_invoices(;path="./test_invoicing.sqlite")::Array{PaidInvoice, 1} =
     # return the array with UnpaidInvoice's that
     return paid_invoices
 end # retrieve_unpaid_invoices
+
+end # module

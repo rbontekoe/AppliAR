@@ -1,4 +1,8 @@
-using AppliAR
+import AppliAR: Infrastructure, API, Domain
+using .Infrastructure
+using .API
+using .Domain
+
 using Test
 using AppliSales
 using AppliGeneralLedger
@@ -15,7 +19,7 @@ end
 
 @testset "Retrieve UnpaidInvoices" begin
     orders = AppliSales.process()
-    AppliAR.process(orders)
+    Infrastructure.process(orders)
     unpaid_invoices = retrieve_unpaid_invoices()
     unpaid_invoice = unpaid_invoices[1]
 
@@ -33,17 +37,17 @@ end
 
 @testset "Retrieve BankStatement from CSV" begin
     #stms = read_bank_statements("./bank.csv")
-    stms = [AppliAR.BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)]
+    stms = [BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)]
     @test length(stms) == 1
     @test amount(stms[1]) == 2420.0
 end
 
 @testset "JounalEntry's" begin
-    stm1 = AppliAR.BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
+    stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
 
     orders = AppliSales.process()
-    AppliAR.process(orders)
+    Infrastructure.process(orders)
 
     invoices = retrieve_unpaid_invoices()
 
@@ -66,7 +70,7 @@ end
 
 @testset "process(db, orders)" begin
     orders = AppliSales.process()
-    entries = AppliAR.process(orders)
+    entries = Infrastructure.process(orders)
     @test length(entries) == 3
     @test entries[1].from == 1300
     @test entries[1].to == 8000
@@ -81,7 +85,7 @@ end
 @testset "retrieve_unpaid_invoices" begin
     path = "./test_invoicing.sqlite"
     orders = AppliSales.process()
-    entries = AppliAR.process(orders; path=path)
+    entries = Infrastructure.process(orders; path=path)
     unpaid_invoices = retrieve_unpaid_invoices(path=path)
 
     @test length(unpaid_invoices) == 3
@@ -94,12 +98,12 @@ end
 @testset "process(unpaid_invoices)" begin
     path = "./test_invoicing.sqlite"
     orders = AppliSales.process()
-    AppliAR.process(orders, path=path)
+    Infrastructure.process(orders, path=path)
     unpaid_invoices = retrieve_unpaid_invoices(path=path)
 
-    stm1 = AppliAR.BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
+    stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
-    entries = AppliAR.process(unpaid_invoices, stms; path=path)
+    entries = Infrastructure.process(unpaid_invoices, stms; path=path)
     @test length(entries) == 1
     @test entries[1].from == 1150
     @test entries[1].to == 1300
@@ -111,12 +115,12 @@ end
 
 @testset "disconnect(db)" begin
     path = "./test_invoicing.sqlite"
-    db = AppliAR.connect(path)
+    db = Infrastructure.connect(path)
     orders = AppliSales.process()
-    AppliAR.process(orders; path=path)
-    AppliAR.disconnect(db)
+    Infrastructure.process(orders; path=path)
+    Infrastructure.disconnect(db)
     try
-        AppliAR.retrieve(db, "UNPAID")
+        Infrastructure.retrieve(db, "UNPAID")
     catch e
         @test e isa SQLite.SQLiteException
     end

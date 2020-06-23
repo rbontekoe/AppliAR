@@ -1,6 +1,18 @@
 # domain.jl
 
+module Domain
+
 include("./spec.jl")
+
+using ..AppliAR
+using Dates
+
+export UnpaidInvoice, PaidInvoice, meta, header, body, id
+export PaidInvoice, stm
+export BankStatement, date, descr, iban, amount
+export MetaInvoice, order_id, training_id, date, currency, currency_ratio
+export Header, invoice_nbr, name, address, zip, city, country, order_ref, name_contact, email_contact
+export OpentrainingItem, name_training, date, price_per_student, students, vat_perc
 
 struct MetaInvoice <: Structure
     _order_id::String
@@ -101,3 +113,5 @@ date(b::BankStatement)::Date = b._date
 descr(b::BankStatement)::String = b._descr
 iban(b::BankStatement)::String = b._iban
 amount(b::BankStatement)::Float64 = b._amount
+
+end # module

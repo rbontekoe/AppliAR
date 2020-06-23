@@ -1,9 +1,22 @@
 # api.jl
 
-include("../domain/domain.jl")
+module API
+
 include("./spec.jl")
 
-import AppliSales.Order # Order is not exported but is refered to in the next function
+import ..AppliAR: Domain
+
+using .Domain
+
+using Dates
+
+import AppliSales: Order # Order is not exported but is refered to in the next function
+import AppliGeneralLedger: create_journal_entry
+
+export create, conv2entry, report
+
+# start invoice numbering
+n = 1000
 
 create(order::Order, invoice_id::String)::UnpaidInvoice = begin
     meta = MetaInvoice(order.id, order.training.id)
@@ -52,3 +65,6 @@ function report(;path="./test_invoicing.sqlite")
 	x = Reporting.aging(path)
 	return x
 end
+
+
+end # module

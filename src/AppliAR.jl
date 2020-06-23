@@ -7,6 +7,8 @@ using AppliGeneralLedger
 using Dates
 
 # first, link to the model
+include("./domain/domain.jl")
+include("./api/api.jl")
 include("./infrastructure/infrastructure.jl")
 
 # next, submodule Reporting

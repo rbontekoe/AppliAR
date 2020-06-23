@@ -1,14 +1,14 @@
 # domain spec.jl
 
-abstract type Domain end
+abstract type Realm end
 
-abstract type Invoice <: Domain end
+abstract type Invoice <: Realm end
 
-abstract type Structure <: Domain end
+abstract type Structure <: Realm end
 
 abstract type BodyItem <: Structure end
 
-abstract type Payment <: Domain end
+abstract type Payment <: Realm end
 
 #=
 """
