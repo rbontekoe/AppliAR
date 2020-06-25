@@ -5,17 +5,21 @@ module Infrastructure
 include("./db.jl")
 include("./doc.jl") # database functions
 
-import ..AppliAR: API, Domain
-using .API
+using ..AppliAR
+#import ..AppliAR: API, Domain
+#using .API
+#using .Domain
+
+import ..AppliAR: Domain, API
 using .Domain
+using .API
 
 import AppliSales: Order
-import AppliGeneralLedger: Entry
-
-using CSV
+import AppliGeneralLedger: JournalEntry
+using Dates
 
 export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices, connect, disconnect
-
+export UnpaidInvoice, PaidInvoice
 
 @enum TableName begin
     UNPAID

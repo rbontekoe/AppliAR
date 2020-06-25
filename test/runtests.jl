@@ -1,4 +1,4 @@
-import AppliAR: Infrastructure, API, Domain
+import AppliAR: Domain, API, Infrastructure
 using .Infrastructure
 using .API
 using .Domain

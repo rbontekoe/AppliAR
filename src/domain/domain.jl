@@ -6,6 +6,7 @@ include("./spec.jl")
 
 using ..AppliAR
 using Dates
+using Dates: Date, DateTime
 
 export UnpaidInvoice, PaidInvoice, meta, header, body, id
 export PaidInvoice, stm

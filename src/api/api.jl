@@ -5,7 +5,6 @@ module API
 include("./spec.jl")
 
 import ..AppliAR: Domain
-
 using .Domain
 
 using Dates
