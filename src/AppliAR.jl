@@ -22,6 +22,14 @@ include("./api/api.jl"); using .API
 include("./infrastructure/infrastructure.jl"); using .Infrastructure
 
 # next, submodule Reporting
-include("Reporting.jl")
+include("Reporting.jl"); using .Reporting
+
+# Aging report
+function report(;path="./test_invoicing.sqlite")
+	#@info(path)
+	x = Reporting.aging(path)
+	return x
+end
+export report
 
 end # module

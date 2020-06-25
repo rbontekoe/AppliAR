@@ -1,4 +1,4 @@
-import AppliAR: Domain, API, Infrastructure
+import AppliAR: Domain, API, Infrastructure, report
 using .Infrastructure
 using .API
 using .Domain
@@ -124,6 +124,26 @@ end
     catch e
         @test e isa SQLite.SQLiteException
     end
+
+    cmd = `rm test_invoicing.sqlite`
+    run(cmd)
+end
+
+@testset "report" begin
+    path = "./test_invoicing.sqlite"
+    orders = AppliSales.process()
+    Infrastructure.process(orders, path=path)
+    unpaid_invoices = retrieve_unpaid_invoices(path=path)
+
+    stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
+    stms = [stm1]
+
+    Infrastructure.process(unpaid_invoices, stms; path=path)
+
+    #r = Reporting.aging(path)
+    r = report()
+    @test r[1].csm == "Scrooge Investment Bank"
+    @test r[1].days == Day(0)
 
     cmd = `rm test_invoicing.sqlite`
     run(cmd)
