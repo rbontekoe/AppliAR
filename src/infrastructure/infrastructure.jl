@@ -6,6 +6,8 @@ include("./db.jl")
 include("./doc.jl") # database functions
 
 using ..AppliAR
+
+using CSV
 #import ..AppliAR: API, Domain
 #using .API
 #using .Domain
