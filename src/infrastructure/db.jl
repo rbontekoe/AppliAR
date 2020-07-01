@@ -17,10 +17,12 @@ const agent = "AB9F"
 createDatabaseItem(item::Any; agent=agent, action="CREATE") = DatabaseItem(time(), agent, action, item._id, item)
 
 # Connect with PATH_CSV
-connect(path::String)::SQLite.DB = SQLite.DBInterface.connect(SQLite.DB, path)
+#connect(path::String)::SQLite.DB = SQLite.DBInterface.connect(SQLite.DB, path)
+connect(path::String)::SQLite.DB = SQLite.DB(path)
 
 # connect to in-memory database
-connect()::SQLite.DB = SQLite.DBInterface.connect(SQLite.DB)
+#connect()::SQLite.DB = SQLite.DBInterface.connect(SQLite.DB)
+connect()::SQLite.DB = SQLite.DB()
 
 # close connection
 disconnect(db::SQLite.DB) = begin
