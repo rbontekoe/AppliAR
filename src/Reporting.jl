@@ -2,10 +2,6 @@
 
 module Reporting
 
-
-const PATH_FILE_UNPAID = "./test_invoicing.txt"
-const PATH_FILE_PAID = "./test_invoicing_paid.txt"
-
 using Dates
 
 export aging
@@ -22,10 +18,9 @@ struct Aging
     days::Day
 end
 
-aging(path_db::String) = begin
-    @info(path_db)
-    unpaid_invoices = retrieve_unpaid_invoices(;path=PATH_FILE_UNPAID)
-    paid_invoices = retrieve_paid_invoices(;path=PATH_FILE_PAID)
+aging(path_file_unpaid, path_file_paid) = begin
+    unpaid_invoices = retrieve_unpaid_invoices(;path=path_file_unpaid)
+    paid_invoices = retrieve_paid_invoices(;path=path_file_paid)
 
     paid = [id(x) for x in paid_invoices]
     unpaid = filter(x -> id(x) ∉ paid, unpaid_invoices)

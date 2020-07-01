@@ -114,10 +114,9 @@ end
 end
 
 @testset "report" begin
-    path = "./test_invoicing.txt"
     orders = AppliSales.process()
     Infrastructure.process(orders)
-    unpaid_invoices = retrieve_unpaid_invoices(path=path)
+    unpaid_invoices = retrieve_unpaid_invoices()
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]

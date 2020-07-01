@@ -25,9 +25,9 @@ include("./infrastructure/infrastructure.jl"); using .Infrastructure
 include("Reporting.jl"); using .Reporting
 
 # Aging report
-function report(;path="./test_invoicing.sqlite")
+function report(;path_unpaid="./test_invoicing.txt", path_paid="./test_invoicing_paid.txt")
 	#@info(path)
-	x = Reporting.aging(path)
+	x = Reporting.aging(path_unpaid, path_paid)
 	return x
 end
 export report
