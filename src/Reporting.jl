@@ -3,7 +3,8 @@
 module Reporting
 
 
-const PATH_DB = "./test_invoicing.sqlite"
+const PATH_FILE_UNPAID = "./test_invoicing.txt"
+const PATH_FILE_PAID = "./test_invoicing_paid.txt"
 
 using Dates
 
@@ -23,8 +24,8 @@ end
 
 aging(path_db::String) = begin
     @info(path_db)
-    unpaid_invoices = retrieve_unpaid_invoices(;path=path_db)
-    paid_invoices = retrieve_paid_invoices(;path=path_db)
+    unpaid_invoices = retrieve_unpaid_invoices(;path=PATH_FILE_UNPAID)
+    paid_invoices = retrieve_paid_invoices(;path=PATH_FILE_PAID)
 
     paid = [id(x) for x in paid_invoices]
     unpaid = filter(x -> id(x) ∉ paid, unpaid_invoices)

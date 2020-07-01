@@ -7,7 +7,7 @@ using Test
 using AppliSales
 using AppliGeneralLedger
 using Dates
-using SQLite
+#using SQLite
 
 # TEST MODEL
 @testset "Orders" begin
@@ -20,7 +20,7 @@ end
 @testset "Retrieve UnpaidInvoices" begin
     orders = AppliSales.process()
     Infrastructure.process(orders)
-    unpaid_invoices = retrieve_unpaid_invoices()
+    unpaid_invoices = read_from_file("./test_invoicing.txt")
     unpaid_invoice = unpaid_invoices[1]
 
     @test id(unpaid_invoice) == "A1001"
@@ -31,7 +31,7 @@ end
     @test first(students(body(unpaid_invoice))) == "Scrooge McDuck"
     @test vat_perc(body(unpaid_invoice)) == 0.21
 
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt`
     run(cmd)
 end
 
@@ -49,7 +49,7 @@ end
     orders = AppliSales.process()
     Infrastructure.process(orders)
 
-    invoices = retrieve_unpaid_invoices()
+    invoices = read_from_file("./test_invoicing.txt")
 
     potential_paid_invoices = []
     for unpaid_invoice in invoices
@@ -64,7 +64,7 @@ end
     @test id(potential_paid_invoices[1]) == "A1002"
     @test amount(stm((potential_paid_invoices[1]))) == 2420.0
 
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt`
     run(cmd)
 end
 
@@ -78,73 +78,57 @@ end
     @test entries[1].vat == 210.0
     @test entries[1].descr == "Learn Smiling"
 
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt`
     run(cmd)
 end
 
-@testset "retrieve_unpaid_invoices" begin
-    path = "./test_invoicing.sqlite"
+@testset "retrieve unpaid invoices" begin
+    path = "./test_invoicing.txt"
     orders = AppliSales.process()
     entries = Infrastructure.process(orders; path=path)
-    unpaid_invoices = retrieve_unpaid_invoices(path=path)
+    unpaid_invoices = read_from_file("./test_invoicing.txt")
 
     @test length(unpaid_invoices) == 3
     @test id(unpaid_invoices[1]) == "A1001"
 
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt`
     run(cmd)
 end
 
 @testset "process(unpaid_invoices)" begin
-    path = "./test_invoicing.sqlite"
     orders = AppliSales.process()
-    Infrastructure.process(orders, path=path)
-    unpaid_invoices = retrieve_unpaid_invoices(path=path)
+    Infrastructure.process(orders)
+    #unpaid_invoices = UnpaidInvoice[invoice for invoice in read_from_file("./test_invoicing.txt")]
+    unpaid_invoices = retrieve_unpaid_invoices()
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
-    entries = Infrastructure.process(unpaid_invoices, stms; path=path)
+    entries = Infrastructure.process(unpaid_invoices, stms)
     @test length(entries) == 1
     @test entries[1].from == 1150
     @test entries[1].to == 1300
     @test entries[1].debit == 2420.0
 
-    cmd = `rm test_invoicing.sqlite`
-    run(cmd)
-end
-
-@testset "disconnect(db)" begin
-    path = "./test_invoicing.sqlite"
-    db = Infrastructure.connect(path)
-    orders = AppliSales.process()
-    Infrastructure.process(orders; path=path)
-    Infrastructure.disconnect(db)
-    try
-        Infrastructure.retrieve(db, "UNPAID")
-    catch e
-        @test e isa SQLite.SQLiteException
-    end
-
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt test_invoicing_paid.txt`
     run(cmd)
 end
 
 @testset "report" begin
-    path = "./test_invoicing.sqlite"
+    path = "./test_invoicing.txt"
     orders = AppliSales.process()
-    Infrastructure.process(orders, path=path)
+    Infrastructure.process(orders)
     unpaid_invoices = retrieve_unpaid_invoices(path=path)
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
 
-    Infrastructure.process(unpaid_invoices, stms; path=path)
+    Infrastructure.process(unpaid_invoices, stms)
 
     #r = Reporting.aging(path)
     r = report()
     @test r[1].csm == "Scrooge Investment Bank"
     @test r[1].days == Day(0)
 
-    cmd = `rm test_invoicing.sqlite`
+    cmd = `rm test_invoicing.txt test_invoicing_paid.txt`
     run(cmd)
 end
