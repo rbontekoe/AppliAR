@@ -88,7 +88,7 @@ end # retrieve_unpaid_invoices
 retrieve_paid_invoices(;path="./test_invoicing_paid.txt")::Array{PaidInvoice, 1} = begin
 
     # retrieve unpaid invoices as dataframe
-    paid_invoices = PaidInvoice[invoice for invoice in read_from_file("./test_invoicing_paid.txt")]
+    paid_invoices = PaidInvoice[invoice for invoice in read_from_file(path)]
 
     # return the array with UnpaidInvoice's that
     return paid_invoices

@@ -130,3 +130,22 @@ end
     cmd = `rm test_invoicing.txt test_invoicing_paid.txt`
     run(cmd)
 end
+
+@testset "report with file names" begin
+    orders = AppliSales.process()
+    Infrastructure.process(orders; path="./test3_invoicing.txt")
+    unpaid_invoices = retrieve_unpaid_invoices(; path="./test3_invoicing.txt")
+
+    stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
+    stms = [stm1]
+
+    Infrastructure.process(unpaid_invoices, stms; path="./test3_invoicing_paid.txt")
+
+    #r = Reporting.aging(path)
+    r = report(path_unpaid="./test3_invoicing.txt", path_paid="./test3_invoicing_paid.txt")
+    @test r[1].csm == "Scrooge Investment Bank"
+    @test r[1].days == Day(0)
+
+    cmd = `rm test3_invoicing.txt test3_invoicing_paid.txt`
+    run(cmd)
+end
