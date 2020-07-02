@@ -6,6 +6,7 @@ import AppliSales: Order
 import AppliGeneralLedger: JournalEntry
 using Dates: Date, DateTime
 using CSV
+using Serialization
 
 export create, process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements, report
 
