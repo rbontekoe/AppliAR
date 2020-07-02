@@ -7,7 +7,6 @@ using Test
 using AppliSales
 using AppliGeneralLedger
 using Dates
-#using SQLite
 
 # TEST MODEL
 @testset "Orders" begin

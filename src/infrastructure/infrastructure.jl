@@ -79,7 +79,7 @@ end # process invoices
 retrieve_unpaid_invoices(;path="./test_invoicing.txt")::Array{UnpaidInvoice, 1} = begin
 
     # retrieve unpaid invoices
-    unpaid_invoices = UnpaidInvoice[invoice for invoice in read_from_file("./test_invoicing.txt")]
+    unpaid_invoices = UnpaidInvoice[invoice for invoice in read_from_file(path)]
 
     # return the array with UnpaidInvoice's that
     return unpaid_invoices
