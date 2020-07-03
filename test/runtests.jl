@@ -8,6 +8,8 @@ using AppliSales
 using AppliGeneralLedger
 using Dates
 
+file_invoice_nbr = "./invoicenbr.txt"
+
 # TEST MODEL
 @testset "Orders" begin
     orders = AppliSales.process()
@@ -19,7 +21,7 @@ end
 @testset "Retrieve UnpaidInvoices" begin
     orders = AppliSales.process()
     Infrastructure.process(orders)
-    unpaid_invoices = read_from_file("./test_invoicing.txt")
+    unpaid_invoices = retrieve_unpaid_invoices()
     unpaid_invoice = unpaid_invoices[1]
 
     @test id(unpaid_invoice) == "A1001"
@@ -30,7 +32,7 @@ end
     @test first(students(body(unpaid_invoice))) == "Scrooge McDuck"
     @test vat_perc(body(unpaid_invoice)) == 0.21
 
-    cmd = `rm test_invoicing.txt`
+    cmd = `rm test_invoicing.txt invoicenbr.txt`
     run(cmd)
 end
 
@@ -63,7 +65,7 @@ end
     @test id(potential_paid_invoices[1]) == "A1002"
     @test amount(stm((potential_paid_invoices[1]))) == 2420.0
 
-    cmd = `rm test_invoicing.txt`
+    cmd = `rm test_invoicing.txt invoicenbr.txt`
     run(cmd)
 end
 
@@ -82,15 +84,14 @@ end
 end
 
 @testset "retrieve unpaid invoices" begin
-    path = "./test_invoicing.txt"
     orders = AppliSales.process()
-    entries = Infrastructure.process(orders; path=path)
-    unpaid_invoices = read_from_file("./test_invoicing.txt")
+    entries = Infrastructure.process(orders)
+    unpaid_invoices = retrieve_unpaid_invoices()
 
     @test length(unpaid_invoices) == 3
     @test id(unpaid_invoices[1]) == "A1001"
 
-    cmd = `rm test_invoicing.txt`
+    cmd = `rm test_invoicing.txt invoicenbr.txt`
     run(cmd)
 end
 
@@ -108,7 +109,7 @@ end
     @test entries[1].to == 1300
     @test entries[1].debit == 2420.0
 
-    cmd = `rm test_invoicing.txt test_invoicing_paid.txt`
+    cmd = `rm test_invoicing.txt test_invoicing_paid.txt invoicenbr.txt`
     run(cmd)
 end
 
@@ -127,7 +128,7 @@ end
     @test r[1].csm == "Scrooge Investment Bank"
     @test r[1].days == Day(0)
 
-    cmd = `rm test_invoicing.txt test_invoicing_paid.txt`
+    cmd = `rm test_invoicing.txt test_invoicing_paid.txt invoicenbr.txt`
     run(cmd)
 end
 
@@ -146,6 +147,6 @@ end
     @test r[1].csm == "Scrooge Investment Bank"
     @test r[1].days == Day(0)
 
-    cmd = `rm test3_invoicing.txt test3_invoicing_paid.txt`
+    cmd = `rm test3_invoicing.txt test3_invoicing_paid.txt invoicenbr.txt`
     run(cmd)
 end
