@@ -39,10 +39,13 @@ process(orders::Array{Order, 1}; path="./test_invoicing.txt") = begin
 #process(entries::Array{JournalEntry, 1}; path_journal="./test_journal.txt", path_ledger="./test_ledger.txt") = begin
 
     # get last order number
-    invnbr = 1000 #ToDo
+    invnbr = last(read_from_file("./invoicenbr.txt"))
 
     # create invoices
     invoices = [create(order, "A" * string(invnbr += 1)) for order in orders]
+
+    # save invoucenbr
+    add_to_file("./invoicenbr.txt", [invnbr])
 
     # archive invoices
     #archive(db, string(UNPAID), invoices)
