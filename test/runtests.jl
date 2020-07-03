@@ -79,7 +79,7 @@ end
     @test entries[1].vat == 210.0
     @test entries[1].descr == "Learn Smiling"
 
-    cmd = `rm test_invoicing.txt`
+    cmd = `rm test_invoicing.txt invoicenbr.txt`
     run(cmd)
 end
 
