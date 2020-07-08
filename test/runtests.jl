@@ -1,13 +1,7 @@
-#import AppliAR: Domain, API, Infrastructure, report
-#using .Infrastructure
-#using .API
-#using .Domain
-
-#include("./src/domain/domain.jl"); using .Domain
-#include("./src/api/api.jl"); using .API
-#include("./src/infrastructure/infrastructure.jl"); using .Infrastructure
-
-using AppliAR
+import AppliAR: Domain, API, Infrastructure, report
+using .Infrastructure
+using .API
+using .Domain
 
 using Test
 using AppliSales
@@ -26,7 +20,7 @@ end
 
 @testset "Retrieve UnpaidInvoices" begin
     orders = AppliSales.process()
-    AppliAR.Infrastructure.process(orders)
+    Infrastructure.process(orders)
     unpaid_invoices = retrieve_unpaid_invoices()
     unpaid_invoice = unpaid_invoices[1]
 
@@ -54,7 +48,7 @@ end
     stms = [stm1]
 
     orders = AppliSales.process()
-    AppliAR.Infrastructure.process(orders)
+    Infrastructure.process(orders)
 
     invoices = read_from_file("./test_invoicing.txt")
 
@@ -77,7 +71,7 @@ end
 
 @testset "process(db, orders)" begin
     orders = AppliSales.process()
-    entries = AppliAR.Infrastructure.process(orders)
+    entries = Infrastructure.process(orders)
     @test length(entries) == 3
     @test entries[1].from == 1300
     @test entries[1].to == 8000
@@ -91,7 +85,7 @@ end
 
 @testset "retrieve unpaid invoices" begin
     orders = AppliSales.process()
-    entries = AppliAR.Infrastructure.process(orders)
+    entries = Infrastructure.process(orders)
     unpaid_invoices = retrieve_unpaid_invoices()
 
     @test length(unpaid_invoices) == 3
@@ -103,13 +97,13 @@ end
 
 @testset "process(unpaid_invoices)" begin
     orders = AppliSales.process()
-    AppliAR.Infrastructure.process(orders)
+    Infrastructure.process(orders)
     #unpaid_invoices = UnpaidInvoice[invoice for invoice in read_from_file("./test_invoicing.txt")]
     unpaid_invoices = retrieve_unpaid_invoices()
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
-    entries = AppliAR.Infrastructure.process(unpaid_invoices, stms)
+    entries = Infrastructure.process(unpaid_invoices, stms)
     @test length(entries) == 1
     @test entries[1].from == 1150
     @test entries[1].to == 1300
@@ -121,13 +115,13 @@ end
 
 @testset "report" begin
     orders = AppliSales.process()
-    AppliAR.Infrastructure.process(orders)
+    Infrastructure.process(orders)
     unpaid_invoices = retrieve_unpaid_invoices()
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
 
-    AppliAR.Infrastructure.process(unpaid_invoices, stms)
+    Infrastructure.process(unpaid_invoices, stms)
 
     #r = Reporting.aging(path)
     r = report()
@@ -140,13 +134,13 @@ end
 
 @testset "report with file names" begin
     orders = AppliSales.process()
-    AppliAR.Infrastructure.process(orders; path="./test3_invoicing.txt")
+    Infrastructure.process(orders; path="./test3_invoicing.txt")
     unpaid_invoices = retrieve_unpaid_invoices(; path="./test3_invoicing.txt")
 
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
 
-    AppliAR.Infrastructure.process(unpaid_invoices, stms; path="./test3_invoicing_paid.txt")
+    Infrastructure.process(unpaid_invoices, stms; path="./test3_invoicing_paid.txt")
 
     #r = Reporting.aging(path)
     r = report(path_unpaid="./test3_invoicing.txt", path_paid="./test3_invoicing_paid.txt")
