@@ -18,7 +18,7 @@ import AppliGeneralLedger: JournalEntry
 using Dates
 
 export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices, connect, disconnect
-export UnpaidInvoice, PaidInvoice
+#export UnpaidInvoice, PaidInvoice
 
 # get last statement number for today
 #n = 0
