@@ -1,7 +1,7 @@
-import AppliAR: Domain, API, Infrastructure, report
-using .Infrastructure
-using .API
-using .Domain
+#import AppliAR: Domain, API, Infrastructure, report
+using AppliAR.Infrastructure
+using AppliAR.API
+using AppliAR.Domain
 
 using Test
 using AppliSales
@@ -113,6 +113,8 @@ end
     run(cmd)
 end
 
+#=
+
 @testset "report" begin
     orders = AppliSales.process()
     Infrastructure.process(orders)
@@ -150,3 +152,5 @@ end
     cmd = `rm test3_invoicing.txt test3_invoicing_paid.txt invoicenbr.txt`
     run(cmd)
 end
+
+=#
