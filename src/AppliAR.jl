@@ -2,8 +2,8 @@ module AppliAR
 
 #using AppliSales: Order
 #using AppliGeneralLedger: JournalEntry
-using AppliSales
-using AppliGeneralLedger
+import AppliSales: Order
+import AppliGeneralLedger: JournalEntry
 using Dates: Date, DateTime
 using DataFrames
 using CSV
