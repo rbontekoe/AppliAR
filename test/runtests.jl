@@ -5,8 +5,6 @@ using AppliSales
 using AppliGeneralLedger
 using Dates
 
-file_invoice_nbr = "./invoicenbr.txt"
-
 # TEST MODEL
 @testset "Orders" begin
     orders = AppliSales.process()
