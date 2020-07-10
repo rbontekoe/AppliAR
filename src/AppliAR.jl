@@ -20,9 +20,9 @@ export Header, invoice_nbr, name, address, zip, city, country, order_ref, name_c
 export OpentrainingItem, name_training, date, price_per_student, students, vat_perc
 
 # first, link to the model
-include("Domain.jl"); using .Domain
-include("API.jl"); using .API
-include("Infrastructure.jl"); using .Infrastructure
+include("./domain/Domain.jl"); using .Domain
+include("./api/API.jl"); using .API
+include("./infrastructure/Infrastructure.jl"); using .Infrastructure
 
 # next, submodule Reporting
 include("Reporting.jl"); using .Reporting

@@ -2,7 +2,7 @@
 
 module API
 
-include("./api/spec.jl")
+include("./spec.jl")
 
 import ..AppliAR: Domain
 using .Domain

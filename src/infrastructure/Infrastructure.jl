@@ -2,8 +2,8 @@
 
 module Infrastructure
 
-include("./infrastructure/db.jl")
-include("./infrastructure/doc.jl") # database functions
+include("./db.jl")
+include("./doc.jl") # database functions
 
 using ..AppliAR
 

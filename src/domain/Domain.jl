@@ -2,7 +2,7 @@
 
 module Domain
 
-include("./domain/spec.jl")
+include("./spec.jl")
 
 using ..AppliAR
 using Dates
