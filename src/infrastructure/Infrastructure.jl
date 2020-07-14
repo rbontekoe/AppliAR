@@ -18,14 +18,20 @@ import AppliGeneralLedger: JournalEntry
 using Dates
 
 export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices, connect, disconnect
-#export UnpaidInvoice, PaidInvoice
 
-# get last statement number for today
-#n = 0
-start_invoice_nbr = 1000
-file_invoice_nbr = "./invoicenbr.txt"
-file_unpaid_invoices = "./test_invoicing.txt"
-file_paid_invoices = "./test_invoicing_paid.txt"
+#CONST start_invoice_nbr = 1000
+const START_INVOICE_NBR = 1000
+#const file_invoice_nbr = "./invoicenbr.txt"
+const FILE_INVOICE_NBR = "./invoicenbr.txt"
+#const file_unpaid_invoices = "./test_invoicing.txt"
+const FILE_UNPAID_INVOICES = "./test_invoicing.txt"
+#const file_paid_invoices = "./test_invoicing_paid.txt"
+const FILE_PAID_INVOICES = "./test_invoicing_paid.txt"
+
+const SALES = 8000
+const BANK = 1150
+const AR = 1300
+const VAT = 4000
 
 read_bank_statements(path::String) = begin
     # read the CSV file containing bank statements
@@ -36,33 +42,32 @@ read_bank_statements(path::String) = begin
     return [BankStatement(row[1], row[2], row[3], row[4]) for row in eachrow(df)]
 end # read_bank_statements
 
-process(orders::Array{Order, 1}; path=file_unpaid_invoices) = begin
+process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
     # get last invoice number
     try
-        read_from_file(file_invoice_nbr)
+        read_from_file(FILE_INVOICE_NBR)
     catch e
-        add_to_file(file_invoice_nbr, [start_invoice_nbr])
+        add_to_file(FILE_INVOICE_NBR, [START_INVOICE_NBR])
     end
 
-    invnbr = last(read_from_file(file_invoice_nbr))
+    invnbr = last(read_from_file(FILE_INVOICE_NBR))
 
     # create invoices
     invoices = [create(order, "A" * string(invnbr += 1)) for order in orders]
 
     # save invoice number
-    add_to_file(file_invoice_nbr, [invnbr])
+    add_to_file(FILE_INVOICE_NBR, [invnbr])
 
     # archive invoices
     add_to_file(path, invoices)
 
     # create journal entries from invoices
-    return entries = [conv2entry(inv, 1300, 8000) for inv in invoices]
+    return entries = [conv2entry(inv, AR, SALES) for inv in invoices]
 
 end # process orders
 
 
-#process(bankstm::Array(Bankstatement, 1) = begin
-process(invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1}; path=file_paid_invoices) = begin
+process(invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1}; path=FILE_PAID_INVOICES) = begin
 
     # create array with potential paid invoices based on received bank statements
     paid_invoices = PaidInvoice[]
@@ -78,11 +83,11 @@ process(invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1}; path=f
     add_to_file(path, paid_invoices)
 
     # return array with JournalEntry's
-    return entries = [conv2entry(inv, 1150, 1300) for inv in paid_invoices]
+    return entries = [conv2entry(inv, BANK, AR) for inv in paid_invoices]
 end # process invoices
 
 
-retrieve_unpaid_invoices(;path=file_unpaid_invoices)::Array{UnpaidInvoice, 1} = begin
+retrieve_unpaid_invoices(;path=FILE_UNPAID_INVOICES)::Array{UnpaidInvoice, 1} = begin
 
     # retrieve unpaid invoices
     unpaid_invoices = UnpaidInvoice[invoice for invoice in read_from_file(path)]
@@ -91,7 +96,7 @@ retrieve_unpaid_invoices(;path=file_unpaid_invoices)::Array{UnpaidInvoice, 1} = 
     return unpaid_invoices
 end # retrieve_unpaid_invoices
 
-retrieve_paid_invoices(;path=file_paid_invoices)::Array{PaidInvoice, 1} = begin
+retrieve_paid_invoices(;path=FILE_PAID_INVOICES)::Array{PaidInvoice, 1} = begin
 
     # retrieve unpaid invoices as dataframe
     paid_invoices = PaidInvoice[invoice for invoice in read_from_file(path)]

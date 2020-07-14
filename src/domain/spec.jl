@@ -10,62 +10,26 @@ abstract type BodyItem <: Structure end
 
 abstract type Payment <: Realm end
 
-#=
 """
     meta(i::Invoice)
 
-Returns the meta data from an invoice.
-"""
-meta(i::Invoice) = error("Meta is not defined as concrete type")
-=#
-
-"""
-    meta(i::Invoice)
-
-Returns the meta data from an invoice.
+Returns the meta data of an invoice.
 """
 function meta end
 
-#=
 """
     header(i::Invoice)
 
-Returns the meta data from an invoice.
-"""
-header(i::Invoice) = error("Header is not defined as concrete type")
-=#
-
-"""
-    header(i::Invoice)
-
-Returns the meta data from an invoice.
+Returns the header of an invoice.
 """
 function header end
 
-#=
 """
     body(i::Invoice)
 
-Returns the meta data from an invoice.
-"""
-body(i::Invoice) = error("Header is not defined as concrete type")
-=#
-
-"""
-    body(i::Invoice)
-
-Returns the meta data from an invoice.
+Returns the body of an invoice.
 """
 function body end
-
-#=
-"""
-    id(i::Invoice)
-
-Returns the id of an invoice.
-"""
-id(i::Invoice) = error("Header is not defined as concrete type")
-=#
 
 """
     id(i::Invoice)

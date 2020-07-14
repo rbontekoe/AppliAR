@@ -15,21 +15,21 @@ julia> using AppliSales
 
 julia> using AppliGeneralLedger
 
-julia> using AppliInvoicing
+julia> using AppliAR
 
 julia> const PATH_CSV = "./bank.csv"
 
 julia> orders = AppliSales.process()
 
-julia> journal_entries_1 = AppliInvoicing.process(orders)
+julia> journal_entries_1 = AppliAR.process(orders)
 
-julia> stms = AppliInvoicing.read_bank_statements(PATH_CSV)
+julia> stms = AppliAR.read_bank_statements(PATH_CSV)
 
-julia> unpaid_invoices = retrieve_unpaid_invoices()
+julia> unpaid_invoices = AppliAR.retrieve_unpaid_invoices()
 
-julia> journal_entries_2 = AppliInvoicing.process(unpaid_invoices, stms)
+julia> journal_entries_2 = AppliAR.process(unpaid_invoices, stms)
 
-julia> cmd = `rm test_invoicing.sqlite`
+julia> cmd = `rm test_invoicing.txt test_invoicing_paid.txt invoicenbr.txt`
 
 julia> run(cmd)
 ```
@@ -47,31 +47,31 @@ Retrieves bank statements from a CSV-file.
 ```
 julia> const PATH_CSV = "./bank.csv"
 
-julia> stms = AppliInvoicing.read_bank_statements(PATH_CSV)
+julia> stms = AppliAR.read_bank_statements(PATH_CSV)
 ```
 """
 function read_bank_statements end
 
 
 """
-    retrieve_unpaid_invoices(path="./test_invoicing.sqlite")::Array{UnpaidInvoice, 1}
+    retrieve_unpaid_invoices(;path="./test_invoicing.txt")::Array{UnpaidInvoice, 1}
 
-Retrieves UnpaidInvoice's from a SQLite.jl database.
+Retrieves UnpaidInvoice's from a text file.
 
 # Example
 
 ```
 julia> using AppliSales
 
-julia> using AppliInvoicing
+julia> using AppliAR
 
 julia> orders = AppliSales.process()
 
-julia> AppliInvoicing.process(orders)
+julia> AppliAR.process(orders)
 
 julia> unpaid_invoices = retrieve_unpaid_invoices()
 
-julia> cmd = `rm test_invoicing.sqlite`
+julia> cmd = `rm test_invoicing.txt invoicenbr.txt`
 
 julia> run(cmd)
 ```
@@ -79,14 +79,34 @@ julia> run(cmd)
 function retrieve_unpaid_invoices end
 
 """
-    retrieve_paid_invoices(path="./test_invoicing.sqlite")::Array{PaidInvoice, 1}
+    retrieve_paid_invoices(;path="./test_invoicing_paid.txt")::Array{PaidInvoice, 1}
 
-Retrieves PaidInvoice's from a SQLite.jl database.
+Retrieves PaidInvoice's from a text file.
 
 # Example
 
 ```
-TODO
+julia> using AppliSales
+
+julia> using AppliAR
+
+julia> orders = AppliSales.process()
+
+julia> AppliAR.process(orders)
+
+julia> unpaid_invoices = retrieve_unpaid_invoices()
+
+julia> const PATH_CSV = "./bank.csv"
+
+julia> stms = AppliAR.read_bank_statements(PATH_CSV)
+
+julia> AppliAR.process(unpaid_invoices, stms)
+
+julia> paid_invoices = AppliAR.retrieve_paid_invoices()
+
+julia> cmd = `rm test_invoicing.txt test_invoicing_paid.txt invoicenbr.txt`
+
+julia> run(cmd)
 ```
 """
 function retrieve_paid_invoices end
