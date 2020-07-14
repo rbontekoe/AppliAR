@@ -38,7 +38,7 @@ end
     @test amount(stms[1]) == 2420.0
 end
 
-@testset "JounalEntry's" begin
+@testset "JournalEntry's" begin
     stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
     stms = [stm1]
 
@@ -64,7 +64,7 @@ end
     run(cmd)
 end
 
-@testset "process(db, orders)" begin
+@testset "process(orders)" begin
     orders = AppliSales.process()
     entries = AppliAR.process(orders)
     @test length(entries) == 3
