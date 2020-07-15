@@ -37,6 +37,7 @@ julia> trainingid = training_id(m)
 "LS"
 
 julia> date(m)
+2020-07-14T16:56:33
 
 julia> currency(m)
 "€"
