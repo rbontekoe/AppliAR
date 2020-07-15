@@ -11,7 +11,7 @@
 @see also [`conv2entry`](@ref)
 
 # Example - create an UnpaidInvoice
-```jldoctest
+```julia
 julia> using AppliAR
 
 julia> using AppliSales
@@ -22,27 +22,26 @@ julia> invoices = [create(order, "A" * string(global invnbr += 1)) for order in 
 ```
 
 # Example - create a PaidInvoice
-```jldoctest
+```julia
 julia> using Dates
 
 julia> using AppliSales
 
 julia> using AppliAR
 
-julia> const PATH_CSV = "./bank.csv"
-"./bank.csv"
+julia> const PATH_CSV = "./bank.csv";
 
-julia> invnbr = 1000
+julia> invnbr = 1000;
 
-julia> orders = AppliSales.process()
+julia> orders = AppliSales.process();
 
-julia> invoices = [create(order, "A" * string(global invnbr += 1)) for order in orders]
+julia> invoices = [create(order, "A" * string(global invnbr += 1)) for order in orders];
 
-julia> stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0)
+julia> stm1 = BankStatement(Date(2020-01-15), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0);
 
-julia> stms = [stm1]
+julia> stms = [stm1];
 
-julia> paid_invoices = PaidInvoice[]
+julia> paid_invoices = PaidInvoice[];
 
 julia> for unpaid_invoice in invoices
           for s in stms # get potential paid invoices
@@ -50,9 +49,9 @@ julia> for unpaid_invoice in invoices
                 push!(paid_invoices, create(unpaid_invoice, s))
              end
           end
-       end
+      end;
 
-julia> show(paid_invoices)
+julia> println(paid_invoices);
 ```
 """
 function create end
