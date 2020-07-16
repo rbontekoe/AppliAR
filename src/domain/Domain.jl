@@ -12,7 +12,7 @@ export UnpaidInvoice, PaidInvoice, meta, header, body, id
 export PaidInvoice, stm
 export BankStatement, date, descr, iban, amount
 export MetaInvoice, order_id, training_id, date, currency, currency_ratio
-export Header, invoice_nbr, name, address, zip, city, country, order_ref, name_contact, email_contact
+export Header, invoice_nbr, name, address, postal_code, city, country, order_ref, name_contact, email_contact
 export OpentrainingItem, name_training, date, price_per_student, students, vat_perc
 
 struct MetaInvoice <: Structure
@@ -30,7 +30,7 @@ struct Header <: Structure
     _invoice_nbr::String
     _name::String
     _address::String
-    _zip::String
+    _postal_code::String
     _city::String
     _country::String
     _order_ref::String
@@ -95,7 +95,7 @@ currency_ratio(m::MetaInvoice)::Float64 = m._currency_ratio
 invoice_nbr(h::Header)::String = h._invoice_nbr
 name(h::Header)::String = h._name
 address(h::Header)::String = h._address
-zip(h::Header)::String = h._zip
+postal_code(h::Header)::String = h._postal_code
 city(h::Header)::String = h._city
 country(h::Header)::String = h._country
 order_ref(h::Header)::String = h._order_ref
