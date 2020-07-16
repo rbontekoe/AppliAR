@@ -78,8 +78,7 @@ julia> address(h)
 "1180 Seven Seas Dr"
 
 julia> postal_code(h)
-WARNING: both Domain and Base export "postal_code"; uses of it in module AppliAR must be qualified
-Base.Iterators.postal_code{Tuple{Header}}((Header("A1001", "Scrooge Investment Bank", "1180 Seven Seas Dr", "FL 32830", "Lake Buena Vista", "USA", "PO-456", "Scrooge McDuck", "scrooge@duckcity.com"),))
+"FL 32830"
 
 julia> city(h)
 "Lake Buena Vista"
