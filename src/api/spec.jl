@@ -61,6 +61,6 @@ function create end
 
     conv2entry(inv::PaidInvoice, from::Int, to::Int)
 
-Convert an Invoice to a AppliGeneralLedger.JournalEntry.
+Convert an Invoice to an AppliGeneralLedger.JournalEntry.
 """
 function conv2entry end
