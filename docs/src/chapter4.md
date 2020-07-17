@@ -1,17 +1,31 @@
-4. Example
+4. Example (user)
 
 ## Example from the course BAWJ
-```
-# test_with_actors2.jl
 
-# Basically the same as with test_local_channels_pids.jl
+### Actor schema actors.jl
+```
+                           StmActor
+                              |
+                              | BankStatement(s)
+                              ↓       
+       SalesActor -------> ARActor -------> GLActor
+                  Order(s)    ↑    Entry(s)    ↑
+                              ↓                ↓
+                            Store            Store
+```
+- All actors run in main
+- ARActor (Accounts Receivable Actor) next-code runs in container
+- GLActor (General Ledger Actor) next-code runs in container
+
+### The code
+```
+# test_with_actors.jl
 
 using Pkg
 Pkg.activate(".")
 Pkg.precompile()
 
 using Rocket
-using DataFrames
 
 @info("Start docker containers")
 cmd = `docker start test_sshd`
@@ -31,11 +45,6 @@ using Distributed
 @info("Connect to containers")
 addprocs([("rob@172.17.0.2", 1)]; exeflags=`--project=$(Base.active_project())`, tunnel=true, dir="/home/rob")
 addprocs([("rob@172.17.0.3", 1)]; exeflags=`--project=$(Base.active_project())`, tunnel=true, dir="/home/rob")
-
-@info("Remove processes > 3")
-while length(procs()) ≥ 4
-    rmprocs(procs()[length(procs())])
-end
 
 @info("Assign process ids to the containers")
 gl_pid = procs()[2] # general ledger
@@ -65,6 +74,8 @@ subscribe!(from(["START"]), sales_actor)
 subscribe!(from(["READ_STMS"]), stm_actor)
 
 @info("Display the result")
+using DataFrames
+
 # print aging report
 r1 = @fetchfrom ar_pid report()
 result = DataFrame(r1)

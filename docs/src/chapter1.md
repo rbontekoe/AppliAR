@@ -19,3 +19,8 @@ header
 ```@docs
 body
 ```
+
+## stm - bank statement belonging to a paid invoice
+```@docs
+stm
+```

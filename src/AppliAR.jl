@@ -1,7 +1,5 @@
 module AppliAR
 
-#using AppliSales: Order
-#using AppliGeneralLedger: JournalEntry
 import AppliSales: Order
 import AppliGeneralLedger: JournalEntry
 using Dates: Date, DateTime
@@ -9,7 +7,7 @@ using DataFrames
 using CSV
 using Serialization
 
-export create, process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements, report
+export process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements, report
 
 
 export UnpaidInvoice, PaidInvoice, meta, header, body, id

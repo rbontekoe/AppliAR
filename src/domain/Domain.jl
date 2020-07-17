@@ -71,11 +71,7 @@ struct PaidInvoice <: Invoice
     _stm::BankStatement
 end # PaidInvoice
 
-"""
-    stm(i::PaidInvoice)
-
-Returns the Bankstatement of a paid invoice.
-"""
+# Field of an PaidInvoice containing the bank statement
 stm(i::PaidInvoice) = i._stm
 
 # Fields Invoice

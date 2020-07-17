@@ -159,3 +159,10 @@ julia> id(unpaid_invoices[1])
 ```
 """
 function id end
+
+"""
+    stm(i::PaidInvoice)
+
+Returns the Bankstatement of a PaidInvoice.
+"""
+function stm end

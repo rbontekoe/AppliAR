@@ -12,7 +12,7 @@ using Dates
 import AppliSales: Order # Order is not exported but is refered to in the next function
 import AppliGeneralLedger: create_journal_entry
 
-export create, conv2entry, report
+export create, conv2entry
 
 # start invoice numbering
 n = 1000

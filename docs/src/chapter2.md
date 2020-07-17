@@ -1,6 +1,11 @@
-# 2. API functions
+# 2. API functions (developers)
 
 ## create
 ```@docs
-create
+AppliAR.API.create
+```
+
+## conv2entry
+```@docs
+AppliAR.API.conv2entry
 ```
