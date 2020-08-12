@@ -44,21 +44,14 @@ end
 
     orders = AppliSales.process()
     AppliAR.process(orders)
-
     invoices = retrieve_unpaid_invoices()
 
-    potential_paid_invoices = []
-    for unpaid_invoice in invoices
-      for s in stms # get potential paid invoices
-        if occursin(id(unpaid_invoice), descr(s)) # description contains invoice number
-          push!(potential_paid_invoices, create(unpaid_invoice, s))
-        end
-      end
-    end
+    AppliAR.process(invoices, stms)
+    paid_invoices = retrieve_paid_invoices()
 
-    @test length(potential_paid_invoices) == 1
-    @test id(potential_paid_invoices[1]) == "A1002"
-    @test amount(stm((potential_paid_invoices[1]))) == 2420.0
+    @test length(paid_invoices) == 1
+    @test id(paid_invoices[1]) == "A1002"
+    @test amount(stm((paid_invoices[1]))) == 2420.0
 
     cmd = `rm test_invoicing.txt invoicenbr.txt`
     run(cmd)
