@@ -1,14 +1,14 @@
 # domain spec.jl
 
-abstract type Realm end
+abstract type ARDomain end
 
-abstract type Invoice <: Realm end
+abstract type Invoice <: ARDomain end
 
-abstract type Structure <: Realm end
+abstract type Structure <: ARDomain  end
 
 abstract type BodyItem <: Structure end
 
-abstract type Payment <: Realm end
+abstract type Payment <: ARDomain  end
 
 """
     meta(i::Invoice)
