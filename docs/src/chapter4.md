@@ -51,12 +51,10 @@ gl_pid = procs()[2] # general ledger
 ar_pid = procs()[3] # accounts receivable (orders/bankstatements)
 
 @info("Activate the packages")
-@everywhere begin
-    using AppliSales
-    using AppliGeneralLedger
-    using AppliAR
-    using Query
-end;
+@everywhere using AppliSales
+@everywhere using AppliGeneralLedger
+@everywhere using AppliAR
+@everywhere using Query
 
 @info("Load actors")
 include("./actors.jl")
@@ -76,13 +74,13 @@ subscribe!(from(["READ_STMS"]), stm_actor)
 @info("Display the result")
 using DataFrames
 
-# print aging report
+@info("Print aging report")
 r1 = @fetchfrom ar_pid report()
 result = DataFrame(r1)
 println("\nUnpaid invoices\n===============")
 @show(result)
 
-# print general ledger accounts 1300, 8000, 1150, and 4000
+@info("General ledger accounts 1300, 8000, 1150, and 4000")
 r2 = @fetchfrom gl_pid AppliGeneralLedger.read_from_file("./test_ledger.txt")
 df = DataFrame(r2)
 #println("\nGeneral Ledger mutations\n========================")

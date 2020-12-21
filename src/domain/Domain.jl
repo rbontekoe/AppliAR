@@ -105,7 +105,7 @@ price_per_student(o::OpentrainingItem)::Float64 = o._price_per_student
 students(o::OpentrainingItem)::Array{String, 1} = o._students
 vat_perc(o::OpentrainingItem)::Float64 = o._vat_perc
 
-# gfields BankStatement
+# fields BankStatement
 date(b::BankStatement)::Date = b._date
 descr(b::BankStatement)::String = b._descr
 iban(b::BankStatement)::String = b._iban
