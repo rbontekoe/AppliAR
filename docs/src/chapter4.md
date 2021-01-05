@@ -234,3 +234,8 @@ Balance bank is 3630.0. Is correct.
 Balance VAT is 840.0. Is correct.
 
 ```
+
+## IJjulia notebooks
+
+- [ar.ipynb](https://github.com/rbontekoe/AppliAR.jl/blob/master/ar.ipynb)
+- [website.ipynb](https://github.com/rbontekoe/AppliAR.jl/blob/master/website.ipynb)
