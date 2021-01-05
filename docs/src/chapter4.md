@@ -235,7 +235,7 @@ Balance VAT is 840.0. Is correct.
 
 ```
 
-## IJjulia notebooks
+## IJulia notebooks
 
 - [ar.ipynb](https://github.com/rbontekoe/AppliAR.jl/blob/master/ar.ipynb)
 - [website.ipynb](https://github.com/rbontekoe/AppliAR.jl/blob/master/website.ipynb)
