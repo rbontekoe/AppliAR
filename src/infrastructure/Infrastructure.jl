@@ -53,7 +53,7 @@ process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
     invnbr = last(read_from_file(FILE_INVOICE_NBR))
 
     # run in kubernetes
-    key = haskey(ENV, "HOSTNAME") ? ENV["HOSTNAME"][1] * ENV["HOSTNAME"][3] : "A"
+    key = haskey(ENV, "HOSTNAME") ? split(ENV["HOSTNAME"], "-")[1] * split(ENV["HOSTNAME"], "-")[3] : "A"
 
     # create invoices
     invoices = [create(order, key * "-" * string(invnbr += 1)) for order in orders]
