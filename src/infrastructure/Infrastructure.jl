@@ -16,7 +16,7 @@ using .API
 
 import AppliSales: Order
 import AppliGeneralLedger: JournalEntry
-using Dates
+using Dates, Sockets
 
 export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices, connect, disconnect
 
