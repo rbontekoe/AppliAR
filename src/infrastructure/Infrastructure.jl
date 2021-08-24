@@ -58,7 +58,7 @@ process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
 
     # create invoices
     #invoices = [create(order, key * "-" * string(invnbr += 1)) for order in orders]
-    invoices = [create(order, key * "-" * string(retrieve_invoice_nbr("ABC", ip"192.168.2.40", 2020))) for order in orders]
+    invoices = [create(order, key * "-" * string(retrieve_invoice_nbr("ABC", ip"192.168.2.40", 30014))) for order in orders]
     
     # save invoice number
     #add_to_file(FILE_INVOICE_NBR, [invnbr])
