@@ -60,7 +60,8 @@ process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
     #invoices = [create(order, key * "-" * string(invnbr += 1)) for order in orders]
     #invoices = [create(order, key * "-" * string(retrieve_invoice_nbr("ABC", ip"192.168.2.40", 30014))) for order in orders]
     
-    invoices = haskey(ENV, "CNTIP") ? [create(order, key * "-" * string(retrieve_invoice_nbr(ENV["CNTNAME"], IPv4(ENV["CNTIP"]), parse(Int64, ENV["CNTPORT"]))) for order in orders] :
+    invoices = haskey(ENV, "CNTIP") ? 
+      [create(order, key * "-" * string(retrieve_invoice_nbr(ENV["CNTNAME"], IPv4(ENV["CNTIP"]), parse(Int64, ENV["CNTPORT"])))) for order in orders] :
       [create(order, key * "-" * string(retrieve_invoice_nbr("ABC", ip"192.168.2.40", 30014))) for order in orders]
 
     # save invoice number
