@@ -9,3 +9,5 @@
 AppliAR is a package we discuss in the course [BAWJ](https://www.appligate.nl/BAWJ/) (Building Business Applications with Julia).
 
 The package uses the support packages AppliSales and AppliGeneralLedger.
+
+See [https://github.com/rbontekoe/ar](https://github.com/rbontekoe/ar) for the client.ipynb notebook with a Microk8s (ar-storage.yaml, gl-storage.yaml, and cnt-storage.yaml) example.
