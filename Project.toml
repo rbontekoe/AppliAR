@@ -1,7 +1,7 @@
 name = "AppliAR"
 uuid = "7e9bfa83-97d7-407e-9b29-58f52238cdb7"
 authors = ["Rob Bontekoe"]
-version = "1.0.10"
+version = "1.0.14"
 
 [deps]
 AppliGeneralLedger = "69311175-8ceb-4e66-8d4a-fec439d19437"

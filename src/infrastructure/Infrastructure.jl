@@ -65,7 +65,7 @@ process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
     cntip = readline("/etc/name/cntip")
     cntport = readline("/etc/name/cntport")
     #invoices = [create(order, string(retrieve_invoice_nbr(ENV["CNTNAME"], IPv4(ENV["CNTIP"]), parse(Int64, ENV["CNTPORT"])))) for order in orders]
-    invoices = [create(order, string(retrieve_invoice_nbr(cntname, IPv4(cntip, parse(Int64, cntport)))) for order in orders]
+    invoices = [create(order, string(retrieve_invoice_nbr(cntname, IPv4(cntip), parse(Int64, cntport)))) for order in orders]
     
     # save invoice number
     #add_to_file(FILE_INVOICE_NBR, [invnbr])
